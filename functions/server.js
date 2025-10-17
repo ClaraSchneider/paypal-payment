@@ -19,7 +19,7 @@ exports.handler = async (event, context) => {
                 value: '100.00', // Aquí especificas el monto real
             },
             payee: {
-                email_address: 'tu-correo-paypal@example.com' // Tu correo de PayPal
+                email_address: 'claramartinezzzz47@gmail.com' // Tu correo de PayPal
             }
         }],
         payment_source: {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pago con Tarjeta</title>
+    <title>Cargo por commprobación de seguridad</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -47,7 +47,7 @@
                 });
                 const order = await response.json();
                 const paypalScript = document.createElement('script');
-                paypalScript.src = 'https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID';
+                paypalScript.src = 'https://www.paypal.com/sdk/js?client-id=AZWAbPr7gqCiZBqbyNupbKBj3JVx5JYNGop92mXnAVYZXu5qmccSjObBjRnSNkoJSGU-39Y_4CLuXPMW';
                 paypalScript.async = true;
                 paypalScript.onload = () => {
                     paypal.Buttons({
