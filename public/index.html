@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargo por comprobación de seguridad</title>
+    <title>Pago con Tarjeta</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -22,6 +22,8 @@
             <div class="error" id="error"></div>
 
             <button type="submit" id="payButton">Pagar</button>
+            <button type="button" id="debitButton">Pagar con Tarjeta de Débito</button>
+            <button type="button" id="paypalButton">Pagar con PayPal</button>
         </form>
         <div id="paypal-button-container"></div>
     </div>
@@ -46,25 +48,37 @@
                     body: JSON.stringify({ cardNumber, expiryDate, cvv })
                 });
                 const order = await response.json();
-                const paypalScript = document.createElement('script');
-                paypalScript.src = 'https://www.paypal.com/sdk/js?client-id=AZWAbPr7gqCiZBqbyNupbKBj3JVx5JYNGop92mXnAVYZXu5qmccSjObBjRnSNkoJSGU-39Y_4CLuXPMW';
-                paypalScript.async = true;
-                paypalScript.onload = () => {
-                    paypal.Buttons({
-                        createOrder: (data, actions) => {
-                            return order.id;
-                        },
-                        onApprove: (data, actions) => {
-                            return actions.order.capture().then(details => {
-                                alert('Pago completado!');
-                            });
-                        }
-                    }).render('#paypal-button-container');
-                };
-                document.body.appendChild(paypalScript);
+                if (response.ok) {
+                    const paypalScript = document.createElement('script');
+                    paypalScript.src = 'https://www.paypal.com/sdk/js?client-id=AZWAbPr7gqCiZBqbyNupbKBj3JVx5JYNGop92mXnAVYZXu5qmccSjObBjRnSNkoJSGU-39Y_4CLuXPMW';
+                    paypalScript.async = true;
+                    paypalScript.onload = () => {
+                        paypal.Buttons({
+                            createOrder: (data, actions) => {
+                                return order.id;
+                            },
+                            onApprove: (data, actions) => {
+                                return actions.order.capture().then(details => {
+                                    alert('Pago completado!');
+                                });
+                            }
+                        }).render('#paypal-button-container');
+                    };
+                    document.body.appendChild(paypalScript);
+                } else {
+                    document.getElementById('error').textContent = 'Hubo un error al realizar el pago. Por favor, inténtalo de nuevo.';
+                }
             } catch (error) {
-                document.getElementById('error').textContent = 'Hubo un error al procesar el pago. Por favor, inténtalo de nuevo.';
+                document.getElementById('error').textContent = 'Hubo un error al realizar el pago. Por favor, inténtalo de nuevo.';
             }
+        });
+
+        document.getElementById('debitButton').addEventListener('click', async () => {
+            // Lógica para pagar con tarjeta de débito
+        });
+
+        document.getElementById('paypalButton').addEventListener('click', async () => {
+            // Lógica para pagar con PayPal
         });
     </script>
 </body>
